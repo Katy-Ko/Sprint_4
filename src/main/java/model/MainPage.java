@@ -1,6 +1,5 @@
 package model;
 
-import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -13,20 +12,14 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
 
 public class MainPage {
 
+    public static final String PAGE_URL = "https://qa-scooter.praktikum-services.ru/";
+
     //Логотип сервиса "Самокат"
     private static final By SERVICE_LOGO = By.className("Header_LogoScooter__3lsAR");
     //Кнопка "Да все привыкли"
     private static final By COOKIE_BUTTON = By.className("App_CookieButton__3cvqF");
     //Список вопросов
-    private static final By QUESTIONS_LIST = By.className("accordion");
-    //Первый вопрос
-    private static final By FIRST_QUESTION = By.id("accordion__heading-0");
-    //Ответ на первый вопрос
-    private static final By FIRST_ANSWER = By.xpath("//*[@id=\"accordion__panel-0\"]/p");
-    //Последний вопрос
-    private static final By LAST_QUESTION = By.id("accordion__heading-7");
-    //Ответ на последний вопрос
-    private static final By LAST_ANSWER = By.xpath("//*[@id=\"accordion__panel-7\"]/p");
+    private static final By FAQ_LIST = By.className("accordion");
     //Надпись на главной странице "Самокат на пару дней"
     private static final By HOME_HEADER = By.className("Home_Header__iJKdX");
     //Логотип Яндекса
@@ -39,6 +32,7 @@ public class MainPage {
     private static final By GO_BUTTON = By.xpath(".//button[text()='Go!']");
     //Изображение "Такого заказа нет"
     private static final By NOT_FOUND_IMAGE = By.cssSelector("div.Track_NotFound__6oaoY > img");
+
 
 
     private WebDriver driver;
@@ -57,30 +51,20 @@ public class MainPage {
     }
 
     public void scrollToQuestionsList() {
-        WebElement element = driver.findElement(QUESTIONS_LIST);
+        WebElement element = driver.findElement(FAQ_LIST);
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", element);
     }
 
-    public void clickFirstQuestion() {
-        Assert.assertTrue(driver.findElement(FIRST_QUESTION).isEnabled());
-        driver.findElement(FIRST_QUESTION).click();
+    public void clickQuestion(String question) {
+        String questionsList = String.format(".//div[@class='accordion']//*[text()='%s']", question);
+        driver.findElement(By.xpath(questionsList)).click();
     }
 
-    public void verifyFirstAnswerText() {
-        String firstAnswerText = driver.findElement(FIRST_ANSWER).getText();
+    public void verifyAnswer(String answer) {
+        String answersList = String.format(".//div[@class='accordion']//*[text()='%s']", answer);
+        String answerText = driver.findElement(By.xpath(answersList)).getText();
         new WebDriverWait(driver, 10)
-                .until(ExpectedConditions.textToBePresentInElementLocated(FIRST_ANSWER, firstAnswerText));
-    }
-
-    public void clickLastQuestion() {
-        Assert.assertTrue(driver.findElement(LAST_QUESTION).isEnabled());
-        driver.findElement(LAST_QUESTION).click();
-    }
-
-    public void verifyLastAnswerText() {
-        String lastAnswerText = driver.findElement(LAST_ANSWER).getText();
-        new WebDriverWait(driver, 10)
-                .until(ExpectedConditions.textToBePresentInElementLocated(LAST_ANSWER, lastAnswerText));
+                .until(ExpectedConditions.textToBePresentInElementLocated(By.xpath(answersList), answerText));
     }
 
     public void clickServiceLogo() {
@@ -101,7 +85,7 @@ public class MainPage {
         driver.findElement(YANDEX_LOGO).click();
         new WebDriverWait(driver, 10).until(numberOfWindowsToBe(2));
 
-        for (String windowHandle : driver.getWindowHandles()) {
+       for (String windowHandle : driver.getWindowHandles()) {
             if(!mainPage.contentEquals(windowHandle)) {
                 driver.switchTo().window(windowHandle);
                 break;
@@ -134,13 +118,5 @@ public class MainPage {
         return notFoundImage.isDisplayed();
     }
 
-    private static final By SEARCH_INPUT = By.xpath(".//input[1]");
-
-    public boolean isSearchInputDisplayed() {
-        WebElement searchInput =
-                new WebDriverWait(driver, 10)
-                        .until(ExpectedConditions.visibilityOfElementLocated(SEARCH_INPUT));
-        return searchInput.isDisplayed();
-    }
 }
 

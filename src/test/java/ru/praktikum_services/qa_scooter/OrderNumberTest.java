@@ -10,6 +10,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+import static model.MainPage.PAGE_URL;
+
 @RunWith(Parameterized.class)
 public class OrderNumberTest {
 
@@ -32,7 +34,7 @@ public class OrderNumberTest {
     public void startUp() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
-        driver.get("https://qa-scooter.praktikum-services.ru/");
+        driver.get(PAGE_URL);
     }
 
     @Test

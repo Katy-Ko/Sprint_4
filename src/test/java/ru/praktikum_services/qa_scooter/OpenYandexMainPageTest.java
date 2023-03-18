@@ -1,23 +1,26 @@
 package ru.praktikum_services.qa_scooter;
 import model.MainPage;
-import model.YandexPage;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import static model.MainPage.PAGE_URL;
+import static org.junit.Assert.assertEquals;
+
 public class OpenYandexMainPageTest {
 
     private WebDriver driver;
+
+    private final String YANDEX_URL = "https://dzen.ru/?yredirect=true";
 
     @Before
     public void startUp() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
-        driver.get("https://qa-scooter.praktikum-services.ru/");
+        driver.get(PAGE_URL);
     }
 
     @Test
@@ -26,13 +29,13 @@ public class OpenYandexMainPageTest {
         objMainPage.waitForLoadServiceLogo();
         objMainPage.clickYandexLogo();
 
-        YandexPage objYandexPage = new YandexPage(driver);
-        Assert.assertTrue(objMainPage.isSearchInputDisplayed());
+        String currentUrl = driver.getCurrentUrl();
+        assertEquals(YANDEX_URL, currentUrl);
+        /* Не уверена в правильности выбранного решения, т.к. наиболее подходящим казалось использовать
+        urlMatches, но не разобралась с ним. По идее в методе clickYandexLogo и так уже проверяется факт появления
+        title "Дзен". Не знаю, стоило ли сравнивать ссылки.
+         */
     }
-    /*С этим тестом много загвоздок -_- никак не находится нужный элемент, казалось бы, уже в новом окне.
-    Будто сменить фокус с одного окна на другое не получилось в итоге.
-    Нужно ли вообще было создавать POM для страницы яндекса?
-     */
 
     @After
     public void tearDown() {

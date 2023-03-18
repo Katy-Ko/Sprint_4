@@ -9,6 +9,8 @@ import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import static model.MainPage.PAGE_URL;
+
 public class ReturnToMainPageTest {
 
     private WebDriver driver;
@@ -17,7 +19,7 @@ public class ReturnToMainPageTest {
     public void startUp() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
-        driver.get("https://qa-scooter.praktikum-services.ru/");
+        driver.get(PAGE_URL);
     }
 
     @Test
