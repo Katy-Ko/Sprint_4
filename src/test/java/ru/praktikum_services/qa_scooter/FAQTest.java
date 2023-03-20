@@ -51,8 +51,7 @@ public class FAQTest {
     public void startUp() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
-        driver.get(PAGE_URL); //можно ли было сделать так? я не стала создавать отдельный метод для открытия страницы,
-       // а просто сделала переменную public
+        driver.get(PAGE_URL);
     }
 
     @Test

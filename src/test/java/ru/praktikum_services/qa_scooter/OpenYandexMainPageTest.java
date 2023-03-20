@@ -31,10 +31,6 @@ public class OpenYandexMainPageTest {
 
         String currentUrl = driver.getCurrentUrl();
         assertEquals(YANDEX_URL, currentUrl);
-        /* Не уверена в правильности выбранного решения, т.к. наиболее подходящим казалось использовать
-        urlMatches, но не разобралась с ним. По идее в методе clickYandexLogo и так уже проверяется факт появления
-        title "Дзен". Не знаю, стоило ли сравнивать ссылки.
-         */
     }
 
     @After
