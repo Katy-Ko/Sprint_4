@@ -55,13 +55,8 @@ public class OrderPage {
     }
 
     public void selectMetro(String metro) {
-        WebElement metroInput = driver.findElement(INPUT_METRO_STATION);
-       if(metroInput.getAttribute("value").equals("")){
-           driver.findElement(NEXT_BUTTON).click();
-       } else {
-           metroInput.sendKeys(metro);
-           selectMetroFromOptions(metro);
-       }
+        driver.findElement(INPUT_METRO_STATION).sendKeys(metro);
+        selectMetroFromOptions(metro);
     }
 
     private void selectMetroFromOptions(String metro) {
@@ -126,8 +121,8 @@ public class OrderPage {
         driver.findElement(INPUT_LAST_NAME).sendKeys(lastName);
         driver.findElement(INPUT_ADDRESS).sendKeys(address);
         driver.findElement(INPUT_METRO_STATION).sendKeys(metro);
-        driver.findElement(INPUT_PHONE_NUMBER).sendKeys(phoneNumber);
         selectMetro(metro);
+        driver.findElement(INPUT_PHONE_NUMBER).sendKeys(phoneNumber);
         driver.findElement(NEXT_BUTTON).click();
     }
 
